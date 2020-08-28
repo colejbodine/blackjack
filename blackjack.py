@@ -2,12 +2,19 @@ import random
 
 # Classes
 class Player():
-    """Initialize player class"""
-    def __init__(self):
+    """A class representing a player."""
+
+    def __init__(self, name):
+        """Initialize the player class."""
         self.hand = []
+        self.score = 0
+        self.name = name
 
     def deal(self):
+        """Deal a card."""
         card = deck.pop()
+
+        # Assign the face value to the card (What you see in hand)
         if card == 11:
             card = 'J'
         if card == 12:
@@ -17,7 +24,20 @@ class Player():
         if card == 14:
             card = 'A'
         self.hand.append(card)
-        return card
+
+        # Assign numerical value to the card (What you see in score)
+        if card == 'J': card = 10
+        if card == 'Q': card = 10
+        if card == 'K': card = 10
+        if card == 'A' and self.score < 11: card = 11
+        if card == 'A' and self.score >= 11: card = 1
+
+        # Add the numerical value of the player's card to their score.
+        self.score += card
+
+        # Print information about player's hand:
+        print(f"\n{self.name.title()}'s hand: {self.hand}")
+        print(f"{self.name.title()}'s' current score is: {self.score}")
 
 
 # Functions
@@ -25,29 +45,20 @@ def play_game():
     # Set up our local variables
     d_playing = True
     p_playing = True
-    p_score = 0
-    d_score = 0
     random.shuffle(deck)
 
     while d_playing or p_playing:
         # The dealer should keep hitting so long as their
-        # running total is less than 18, based on conventional strategy.
-        if d_score < 18:
-            card = dealer.deal()
-            if card == 'J': card = 10
-            if card == 'Q': card = 10
-            if card == 'K': card = 10
-            if card == 'A' and d_score < 11: card = 11
-            if card == 'A' and d_score >= 11: card = 1
-            d_score += int(card)
-            print(f"\nDealer hand: {dealer.hand}")
-            print(f"The dealer's current score is: {d_score}")
-            if d_score > 21:
+        # running total is less than 17, based on conventional strategy.
+        if dealer.score < 17:
+            dealer.deal()
+            
+            if dealer.score > 21:
                 print("The dealer busted!")
                 p_playing = False
                 d_playing = False
         else:
-            if d_score == 21 and len(dealer.hand) <= len(player.hand):
+            if dealer.score == 21 and len(dealer.hand) <= len(player.hand):
                 print("The dealer got a blackjack! Dealer wins.")
                 p_playing = False
             d_playing = False
@@ -58,16 +69,8 @@ def play_game():
             if choice.lower() == 'p':
                 p_playing = False
             elif choice.lower() == 'h':
-                card = player.deal()
-                if card == 'J': card = 10
-                if card == 'Q': card = 10
-                if card == 'K': card = 10
-                if card == 'A' and p_score < 11: card = 11
-                if card == 'A' and p_score >= 11: card = 1
-                p_score += int(card)
-                print(f"\nYour hand: {player.hand}")
-                print(f"Your current score is: {p_score}")
-                if p_score > 21:
+                player.deal()
+                if player.score > 21:
                     p_playing = False
                     d_playing = False
                     print("You busted!")
@@ -75,30 +78,33 @@ def play_game():
                 break
 
     # If player has less than 21 and more than the dealer, they win.
-    if p_score > d_score and p_score <= 21:
-        print("Congratulations, you win!")
-    elif p_score < 21 and d_score > 21:
-        print("Congratulations, you win!")
+    if (player.score > dealer.score and player.score <= 21) or \
+        (player.score < 21 and dealer.score > 21):
+            print(f"Congratulations, {player.name} won!")
     else:
-        print("Sorry, you lost.")
+        print(f"{player.name} lost.")
 
-
-# Variables
-player = Player()
-dealer = Player()
 
 # Main program
 playAgain = True
 while playAgain:
-    # Empty out the players' hands before the game starts.
+    # Reset deck before the game starts.
     deck = [
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ]
-    dealer.hand = []
+    # Gather the player's name and initialize them..
+    name = input("What is your name? Enter here: ")
+    player = Player(name)
     player.hand = []
+    player.score = 0
+    # Initialize the dealer.
+    dealer = Player("Dealer")
+    dealer.hand = []
+    dealer.score = 0
+    
     play_game()
     choice = input("Do you want to play again? (y/n): ")
     if choice.lower() == 'y':
