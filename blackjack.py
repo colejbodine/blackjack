@@ -1,5 +1,6 @@
 import random
 
+
 # Classes
 class Player():
     """A class representing a player."""
@@ -26,11 +27,16 @@ class Player():
         self.hand.append(card)
 
         # Assign numerical value to the card (What you see in score)
-        if card == 'J': card = 10
-        if card == 'Q': card = 10
-        if card == 'K': card = 10
-        if card == 'A' and self.score < 11: card = 11
-        if card == 'A' and self.score >= 11: card = 1
+        if card == 'J':
+            card = 10
+        if card == 'Q':
+            card = 10
+        if card == 'K':
+            card = 10
+        if card == 'A' and self.score < 11:
+            card = 11
+        if card == 'A' and self.score >= 11:
+            card = 1
 
         # Add the numerical value of the player's card to their score.
         self.score += card
@@ -52,19 +58,18 @@ def play_game():
         # running total is less than 17, based on conventional strategy.
         if dealer.score < 17:
             dealer.deal()
-            
             if dealer.score > 21:
-                print("The dealer busted!")
+                print(f"{player.name.title()} busted!")
                 p_playing = False
                 d_playing = False
         else:
             if dealer.score == 21 and len(dealer.hand) <= len(player.hand):
-                print("The dealer got a blackjack! Dealer wins.")
+                print(f"{player.name.title()} got a blackjack! \
+                    {player.name.title()} wins.")
                 p_playing = False
             d_playing = False
-        
         # The player's turn:
-        if p_playing == True:
+        if p_playing:
             choice = input("\nWould you like to (h)it, (p)ass, or (q)uit? ")
             if choice.lower() == 'p':
                 p_playing = False
@@ -73,16 +78,16 @@ def play_game():
                 if player.score > 21:
                     p_playing = False
                     d_playing = False
-                    print("You busted!")
+                    print(f"{player.name.title()} busted!")
             elif choice.lower() == 'q':
                 break
 
     # If player has less than 21 and more than the dealer, they win.
     if (player.score > dealer.score and player.score <= 21) or \
-        (player.score < 21 and dealer.score > 21):
-            print(f"Congratulations, {player.name} won!")
+            (player.score < 21 and dealer.score > 21):
+        print(f"Congratulations, {player.name.title()} won!")
     else:
-        print(f"{player.name} lost.")
+        print(f"{player.name.title()} lost.")
 
 
 # Main program
@@ -95,6 +100,7 @@ while playAgain:
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ]
+
     # Gather the player's name and initialize them..
     name = input("What is your name? Enter here: ")
     player = Player(name)
@@ -104,7 +110,6 @@ while playAgain:
     dealer = Player("Dealer")
     dealer.hand = []
     dealer.score = 0
-    
     play_game()
     choice = input("Do you want to play again? (y/n): ")
     if choice.lower() == 'y':
