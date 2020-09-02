@@ -97,28 +97,19 @@ def play_game():
 play_again = True
 while play_again:
     # Reset deck before the game starts.
+    # Initialize player and dealer so their decks are empty.
     deck = [
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ]
-
-    # Gather the player's name and initialize them.
     player_name = input("What is your name? Enter here: ")
     player = Player(player_name)
-    player.hand = []
-    player.score = 0
-
-    # Initialize the dealer.
     dealer = Player("Dealer")
-    dealer.hand = []
-    dealer.score = 0
 
-    # Play the game
+    # Play the game. When the game is over, ask to play again.
     play_game()
-
-    # When game is over, ask to play again.
     play_again_choice = input("\nDo you want to play again? (y/n): ")
     if play_again_choice.lower() == 'y':
         play_again = True
