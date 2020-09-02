@@ -1,3 +1,8 @@
+# File:         blackjack.py
+# Author:       Cole Bodine
+# Github:       https://github.com/colejbodine
+# Date:         9/2/2020
+# Description:  This program is a simple Blackjack game made in Python 3.
 import random
 
 
@@ -42,7 +47,9 @@ class Player:
         # Add the numerical value of the player's card to their score.
         self.score += card
 
-        # Print information about player's hand:
+        # Print information about current player's hand. Depending on your rules, you may only
+        # want to display this information about the player, in which case, remove this from the class
+        # and only call it for the player.
         print(f"\n{self.name.title()}'s hand: {self.hand}")
         print(f"{self.name.title()}'s' current score is: {self.score}")
 
@@ -104,7 +111,7 @@ while play_again:
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ]
-    player_name = input("What is your name? Enter here: ")
+    player_name = input("\nWhat is your name? Enter here: ")
     player = Player(player_name)
     dealer = Player("Dealer")
 
