@@ -75,14 +75,14 @@ def play_game():
 
         # The player's turn:
         if player.playing:
-            choice = input("\nWould you like to (h)it, (p)ass, or (q)uit? ")
-            if choice.lower() == 'p':
+            playing_choice = input("\nWould you like to (h)it, (p)ass, or (q)uit? ")
+            if playing_choice.lower() == 'p':
                 player.playing = False
-            elif choice.lower() == 'h':
+            elif playing_choice.lower() == 'h':
                 player.deal()
                 if player.score > 21:
                     dealer.playing = False
-            elif choice.lower() == 'q':
+            elif playing_choice.lower() == 'q':
                 break
 
     # If player has less than 21 and more than the dealer, they win.
@@ -94,8 +94,8 @@ def play_game():
 
 
 # Main program
-playAgain = True
-while playAgain:
+play_again = True
+while play_again:
     # Reset deck before the game starts.
     deck = [
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
@@ -104,18 +104,23 @@ while playAgain:
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ]
 
-    # Gather the player's name and initialize them..
-    name = input("What is your name? Enter here: ")
-    player = Player(name)
+    # Gather the player's name and initialize them.
+    player_name = input("What is your name? Enter here: ")
+    player = Player(player_name)
     player.hand = []
     player.score = 0
+
     # Initialize the dealer.
     dealer = Player("Dealer")
     dealer.hand = []
     dealer.score = 0
+
+    # Play the game
     play_game()
-    choice = input("\nDo you want to play again? (y/n): ")
-    if choice.lower() == 'y':
-        playAgain = True
-    elif choice.lower() == 'n':
-        playAgain = False
+
+    # When game is over, ask to play again.
+    play_again_choice = input("\nDo you want to play again? (y/n): ")
+    if play_again_choice.lower() == 'y':
+        play_again = True
+    elif play_again_choice.lower() == 'n':
+        play_again = False
